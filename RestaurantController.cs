@@ -1,4 +1,4 @@
-﻿using Npgsql;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -14,7 +14,7 @@ namespace WebApp.Controllers
         [System.Web.Http.HttpPost]
         public HttpResponseMessage Post([FromBody] Restaurant restaurant)
         {
-            string connectionString = "Host=localhost;Username=postgres;Password=ijasamzakon24;Database=restoran";
+            string connectionString = "Host=localhost;Username=postgres;Password=*****;Database=restoran";
             NpgsqlConnection connection = new NpgsqlConnection(connectionString);
 
 
@@ -31,9 +31,9 @@ namespace WebApp.Controllers
                 restaurant.Id = id;
                 command.Parameters.AddWithValue("@Id", restaurant.Id);
 
-                command.Parameters.AddWithValue("@FirstName", restaurant.Name)
+                command.Parameters.AddWithValue("@Name", restaurant.Name)
                     ;
-                command.Parameters.AddWithValue("@LastName", restaurant.Rate);
+                command.Parameters.AddWithValue("@Rate", restaurant.Rate);
 
                 command.ExecuteNonQuery();
             }
@@ -46,7 +46,7 @@ namespace WebApp.Controllers
         {
             List<Restaurant> restaurants = new List<Restaurant>();
 
-            string connectionString = "Host=localhost;Username=postgres;Password=ijasamzakon24;Database=restoran";
+            string connectionString = "Host=localhost;Username=postgres;Password=*****;Database=restoran";
             NpgsqlConnection connection = new NpgsqlConnection(connectionString);
 
             using (connection)
@@ -96,7 +96,7 @@ namespace WebApp.Controllers
         [System.Web.Http.HttpPut]
         public HttpResponseMessage Put(Guid id, [FromBody] Restaurant restaurant)
         {
-            string connectionString = "Host=localhost;Username=postgres;Password=ijasamzakon24;Database=restoran";
+            string connectionString = "Host=localhost;Username=postgres;Password=******;Database=restoran";
             NpgsqlConnection connection = new NpgsqlConnection(connectionString);
 
             Restaurant rest = GetId(id);
@@ -111,7 +111,7 @@ namespace WebApp.Controllers
                 {
                     var queryBuilder = new StringBuilder("");
                     NpgsqlCommand command = new NpgsqlCommand();
-                    queryBuilder.Append("UPDATE Customer SET ");
+                    queryBuilder.Append("UPDATE Rest SET ");
                     command.Connection = connection;
                     connection.Open();
 
@@ -153,21 +153,21 @@ namespace WebApp.Controllers
         [System.Web.Http.HttpDelete]
         public HttpResponseMessage Delete(Guid id)
         {
-            string connectionString = "Host=localhost;Username=postgres;Password=mojabaza123;Database=rent-a-car";
+            string connectionString = "Host=localhost;Username=postgres;Password=****;Database=restoran";
             NpgsqlConnection connection = new NpgsqlConnection(connectionString);
 
             try
             {
-                Restaurant customer = GetId(id);
+                Restaurant restaurant = GetId(id);
 
-                if (customer == null)
+                if (restauranr == null)
                 {
                     return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "This user does not exist");
                 }
                 using (connection)
                 {
                     NpgsqlCommand command = new NpgsqlCommand();
-                    command.CommandText = "DELETE FROM customer WHERE \"Id\"=@Id";
+                    command.CommandText = "DELETE FROM restaurant WHERE \"Id\"=@Id";
                     command.Connection = connection;
                     connection.Open();
 
@@ -184,13 +184,13 @@ namespace WebApp.Controllers
 
         private Restaurant GetId(Guid id)
         {
-            string connectionString = "Host=localhost;Username=postgres;Password=mojabaza123;Database=rent-a-car";
+            string connectionString = "Host=localhost;Username=postgres;Password=******;Database=restoran";
             NpgsqlConnection connection = new NpgsqlConnection(connectionString);
 
             using (connection)
             {
                 NpgsqlCommand command = new NpgsqlCommand();
-                command.CommandText = "select * from \"Customer\" where \"Id\"=@Id";
+                command.CommandText = "select * from \"Restaurant\" where \"Id\"=@Id";
                 command.Connection = connection;
                 command.Parameters.AddWithValue("@Id", id);
                 connection.Open();
